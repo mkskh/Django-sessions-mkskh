@@ -10,6 +10,7 @@ First part - [Django_views-and-templates](https://github.com/mkskh/Django_views-
 ![t1](for_readme/task1_result.gif)
 
 ### task2
+- for creating note you have to be a superuser (pavel, mike, admin)
 ![t2](for_readme/task2_result.gif)
 
 ### task3
