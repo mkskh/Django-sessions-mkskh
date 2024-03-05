@@ -1,7 +1,7 @@
 # Django-sessions-mkskh Exercise-Project 
 
-## This is a continuation of previous projects:
-[Django-forms](https://github.com/mkskh/Django-forms-mkskh) 
+## This is a continuation of previous projects:  
+[Django-forms](https://github.com/mkskh/Django-forms-mkskh)  
 [Django_views-and-templates](https://github.com/mkskh/Django_views-and-templates-mkskh/tree/main) 
 
 ## Consists of 3 tasks:
