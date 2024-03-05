@@ -4,8 +4,17 @@
 {% block content %}
 
 <h2>Note number {{ id }}</h2>
-<h3>{{ note.section }}</h3>
+<h3><b>Section: </b>{{ note.section }}</h3>
+{% if user_profile %}
+    {% if user_profile.voted %}
+    <p><b>Votes:</b> {{ note.voted }}. You are already voted</p>
+    {% elif not user_profile.voted %}
+    <p><b>Votes:</b> {{ note.voted }} <a href="{% url 'notes:vote' id %}">Vote</a></p>
+    {% endif %}
+{% else %}
+<p><b>Votes:</b> {{ note.voted }} You are not allowed to vote. <a href="/user/">Log in</a> to gain access</p>
 <p>{{ note.text }}</p>
+{% endif %}
 
 <a href="{% url 'notes:edit_note' id %}">Edit this note</a>
 

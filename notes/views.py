@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from .forms import SearchForm, NoteForm, EditNoteForm
 
 from notes.models import NoteStore
+from user.models import UserProfile
 
 
 store = NoteStore()
@@ -77,12 +78,18 @@ class NoteDetails(TemplateView):
         """Return the note data."""
         store = NoteStore()
         notes = store.get()
+        if self.request.user.is_authenticated:
+            current_user = self.request.user
+            user_profile = UserProfile.objects.get(user=current_user)
+        else:
+            user_profile = None
         return {
             "id": note_id,
             "num_notes": len(notes),
             "note": notes[note_id - 1],
             'next_note': note_id + 1 if note_id < len(notes) else None,
             'previous_note': note_id - 1 if note_id > 1 else None,
+            'user_profile': user_profile,
         }
 
 
@@ -169,3 +176,26 @@ def edit_note(request, id):
             store.save(notes)
             return redirect('notes:details', id)
 
+
+def vote(request, id):
+
+    if request.method == "GET":
+        store = NoteStore()
+        notes = store.get()
+        notes[id - 1]["voted"] += 1
+        store.save(notes)
+
+        current_user = request.user
+        user_profile = UserProfile.objects.get(user=current_user) 
+        user_profile.voted = True
+        user_profile.save()
+
+        context = {
+        "id": id,
+        "num_notes": len(notes),
+        "note": notes[id - 1],
+        'next_note': id + 1 if id < len(notes) else None,
+        'previous_note': id - 1 if id > 1 else None,
+        'user_profile': user_profile
+        }
+        return render(request, 'notes/details.html', context)

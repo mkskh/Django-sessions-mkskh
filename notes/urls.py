@@ -2,7 +2,7 @@
 from django.urls import path
 from .views import SectionsView, BySectionView, NoteDetails, SearchResultsView, AddNote
 
-from notes.views import home, search_view, ok_page, edit_note
+from notes.views import home, search_view, ok_page, edit_note, vote
 
 app_name = "notes"
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('search/', search_view, name="search_view"),
     path('add/', AddNote.as_view(), name="add_note"),
     path('add/ok', ok_page, name="ok_page"),
+    path('<int:id>/vote/', vote, name="vote"),
     path('<str:search_term>/', SearchResultsView.as_view(), name="search"),
 ]
 

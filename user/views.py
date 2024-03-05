@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from .forms import RegistrationForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
+from .models import UserProfile
 
 
 def register(request):
@@ -15,7 +16,10 @@ def register(request):
 
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user_profile = UserProfile.objects.create(user=user)
+            # user_profile.user_id = user.id
+            user_profile.save()
             return redirect('/')
         else:
             error = "You put wrong information. Please try again. DETAILS:"
